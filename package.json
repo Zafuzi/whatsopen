@@ -1,0 +1,26 @@
+{
+	"name": "whatsopen",
+	"version": "1.0.0",
+	"description": "An open source \"clone\" of what's app. The goal is to build:",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"run": "node ./server/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@bitbucket.org/zafuzi/whatsopen.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://bitbucket.org/zafuzi/whatsopen/issues"
+	},
+	"homepage": "https://bitbucket.org/zafuzi/whatsopen#readme",
+	"dependencies": {
+		"serve-handler": "^6.1.6",
+		"ws": "^8.18.0"
+	}
+}
