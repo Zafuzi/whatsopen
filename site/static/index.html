@@ -23,10 +23,12 @@
     // Otherwise, you can explicitly choose the transport by using
     // RPC.POST() or RPC.WS().
 
-    RPC.onmessage = msg => {
+    RPC.onmessage = wrapper => {
         // Message originating from server (not a response to client message).
         // Returning true will prevent tlsd from doing anything further
         // with the message.
+        let msg = wrapper.msg;
+        document.getElementById( "chats" ).innerText += msg.name + ": " + msg.text + "\n";
         return false;
     };
 
@@ -41,6 +43,8 @@
         // The websocket connection was lost for some reason.
         // The RPC code will reconnect automatically.
     }
+    
+    RPC.debug = true;
 
 </script>
 
@@ -62,13 +66,14 @@
 
         let data = { action: "text", text };
 		RPC.WS( data, response => {
-            alert( response )
+            //alert( response )
         }, console.error );
 
 		document.getElementById('inputBox').value = ''
 	})
 </script>
 
+<pre id="chats"></pre>
 
 </body>
 

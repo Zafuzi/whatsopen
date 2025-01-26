@@ -14,13 +14,15 @@ const chat_clients = {};
 
 function broadcast( message ) {
     console.log( "Broadcasting: # clients = ", Object.keys( chat_clients ).length );
-    for( let client in chat_clients ) {
-        if( chat_clients[ client ].socket.connected ) {
-            console.log( "Sending to ", client.name );
-            chat_clients[ client ].send( message );
+    console.log( "Message: ", message );
+    for( let name in chat_clients ) {
+        let client = chat_clients[ name ];
+        if( client.socket.connected ) {
+            console.log( "Sending to ", name );
+            client.send( { msg: message } );
         } else {
-            console.log( "Dropping ", client.name );
-            delete chat_clients[ client.name ];
+            console.log( "Dropping ", name );
+            delete chat_clients[ name ];
         }
     }
 }
@@ -48,7 +50,7 @@ module.exports = ( input, okay, fail, transport ) => {
         if( action == "text" ) {
             let text = input.text;
             chatHistory.push( text );   
-            // broadcast( { text, name } );
+            broadcast( { text, name } );
             return okay( "You sent: "+text );
         }
 
