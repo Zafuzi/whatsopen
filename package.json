@@ -21,7 +21,7 @@
 	"homepage": "https://bitbucket.org/zafuzi/whatsopen#readme",
 	"dependencies": {
 		"serve-handler": "^6.1.6",
-		"tlsd": "^2.12.0",
+		"tlsd": "file:../tlsd",
 		"ws": "^8.18.0"
 	}
 }

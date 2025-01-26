@@ -11,6 +11,39 @@
 </head>
 
 <body>
+
+
+<script src="/rpc/rpc.js"></script>
+
+<script>
+
+    // RPC is used to send msgs to the back end.
+    // If you call RPC() directly, it will decide whether or not to use
+    // Websocket or REST based on the size of the JSON encoded msg.
+    // Otherwise, you can explicitly choose the transport by using
+    // RPC.POST() or RPC.WS().
+
+    RPC.onmessage = msg => {
+        // Message originating from server (not a response to client message).
+        // Returning true will prevent tlsd from doing anything further
+        // with the message.
+        return false;
+    };
+
+    RPC.on_connect = function( evt ) {
+        // RPC is ready to be used (websocket is connected)
+        RPC( { action: "hello" }, msg => {
+            console.log( "Connected to server: " + msg );
+        } );
+    }
+
+    RPC.on_disconnect = function( evt ) {
+        // The websocket connection was lost for some reason.
+        // The RPC code will reconnect automatically.
+    }
+
+</script>
+
 <div class="container">
 	<form id="msgForm" class="msgForm">
 		<input type="text" placeholder="Send message" class="input" id="inputBox" />
@@ -19,41 +52,24 @@
 	<hr/>
 	<div id="messages" class="messages"></div>
 </div>
+
 <script type="text/javascript">
-	const ws = new WebSocket(`ws://${window.document.location.host}`);
-	ws.binaryType = "blob";
-	// Log socket opening and closing
-	ws.addEventListener("open", event => {
-		console.log("Websocket connection opened");
-	});
-	ws.addEventListener("close", event => {
-		console.log("Websocket connection closed");
-	});
-	ws.onmessage = function (message) {
-		const msgDiv = document.createElement('div');
-		msgDiv.classList.add('msgCtn');
-		if (message.data instanceof Blob) {
-			reader = new FileReader();
-			reader.onload = () => {
-				msgDiv.innerHTML = reader.result;
-				document.getElementById('messages').appendChild(msgDiv);
-			};
-			reader.readAsText(message.data);
-		} else {
-			console.log("Result2: " + message.data);
-			msgDiv.innerHTML = message.data;
-			document.getElementById('messages').appendChild(msgDiv);
-		}
-	}
+
 	const form = document.getElementById('msgForm');
 	form.addEventListener('submit', (event) => {
 		event.preventDefault();
-		const message = document.getElementById('inputBox').value;
-        let data = { action: "message", msg: { message } };
-		ws.send(JSON.stringify(data));
+		const text = document.getElementById('inputBox').value;
+
+        let data = { action: "text", text };
+		RPC.WS( data, response => {
+            alert( response )
+        }, console.error );
+
 		document.getElementById('inputBox').value = ''
 	})
 </script>
+
+
 </body>
 
 </html>
