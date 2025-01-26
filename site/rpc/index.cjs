@@ -6,22 +6,16 @@
 //	These correspond to the same okay()/fail() functions given to RPC() on
 //	the front end.
 
-//delete require.cache[ module.filename ];
-
 const chatHistory = [];
 
 const chat_clients = {};
 
 function broadcast( message ) {
-    console.log( "Broadcasting: # clients = ", Object.keys( chat_clients ).length );
-    console.log( "Message: ", message );
     for( let name in chat_clients ) {
         let client = chat_clients[ name ];
         if( client.socket.connected ) {
-            console.log( "Sending to ", name );
             client.send( { msg: message } );
         } else {
-            console.log( "Dropping ", name );
             delete chat_clients[ name ];
         }
     }

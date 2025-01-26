@@ -65,12 +65,11 @@
 		const text = document.getElementById('inputBox').value;
 
         let data = { action: "text", text };
-		RPC.WS( data, response => {
-            //alert( response )
-        }, console.error );
+		RPC.WS( data, console.log, console.error );
 
 		document.getElementById('inputBox').value = ''
 	})
+
 </script>
 
 <pre id="chats"></pre>
