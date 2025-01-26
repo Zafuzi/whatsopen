@@ -6,7 +6,7 @@
 //	These correspond to the same okay()/fail() functions given to RPC() on
 //	the front end.
 
-delete require.cache[ module.filename ];
+//delete require.cache[ module.filename ];
 
 const chatHistory = [];
 
