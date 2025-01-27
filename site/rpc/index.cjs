@@ -6,9 +6,19 @@
 //	These correspond to the same okay()/fail() functions given to RPC() on
 //	the front end.
 
-const chatHistory = [];
+delete require.cache[ module.filename ];
 
-const chat_clients = {};
+let chatHistory = globalThis._ch;
+if( ! chatHistory ) {
+    chatHistory = [];
+    globalThis._ch = chatHistory;
+}
+
+let chat_clients = globalThis._cc;
+if( ! chat_clients ) {
+    chat_clients = {};
+    globalThis._cc = chat_clients;
+}
 
 function broadcast( message ) {
     for( let name in chat_clients ) {
@@ -32,20 +42,32 @@ module.exports = ( input, okay, fail, transport ) => {
     console.warn( "Action: ", action );
 
 	if( action == "hello" ) {
-		return okay( "welcome" );
-	}
- 
+        return okay( { history: chatHistory } );
+    }
+
    if( transport.type == "WS" ) {
 
-        let { name, socket } = connection;
+        if( input.nick ) {
+            connection.nick = input.nick;
+        }
+
+        let { name, socket, nick } = connection;
 
         chat_clients[ name ] = connection;
 
         if( action == "text" ) {
             let text = input.text;
-            chatHistory.push( text );   
-            broadcast( { text, name } );
-            return okay( "You sent: "+text );
+
+            let msg_out = { text, name, from: connection.nick };       
+
+            chatHistory.push( msg_out );
+            if( chatHistory.length > 100 ) {
+                chatHistory.shift();
+            }
+
+            broadcast( msg_out );
+
+            return okay( msg_out );
         }
 
     }

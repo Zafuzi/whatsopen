@@ -12,7 +12,7 @@
 
 <body>
 
-<header>
+<header style="position: fixed; top: 0; left: 0; right: 0; padding: 1em; margin: 0; 2">
 	It's like texting, but worse!
 </header>
 
@@ -32,7 +32,7 @@
         // Returning true will prevent tlsd from doing anything further
         // with the message.
         let msg = wrapper.msg;
-        document.getElementById( "chats" ).innerText += msg.name + ": " + msg.text + "\n";
+        document.getElementById( "chats" ).innerText += msg.from + ": " + msg.text + "\n";
         return false;
     };
 
@@ -40,6 +40,10 @@
         // RPC is ready to be used (websocket is connected)
         RPC( { action: "hello" }, msg => {
             console.log( "Connected to server: " + msg );
+            let history = msg.history;
+            for( let msg of history ) {
+                document.getElementById( "chats" ).innerText += msg.from + ": " + msg.text + "\n";
+            }
         } );
     }
 
@@ -54,6 +58,7 @@
 
 <div class="container">
 	<form id="msgForm" class="msgForm">
+        <input type="text" class="input" value="" id="nick" placeholder="Nickname" style="width:5em;" />
 		<input type="text" placeholder="Send message" class="input" id="inputBox" />
 		<input type="submit" class="btn" value="Send">
 	</form>
@@ -67,8 +72,8 @@
 	form.addEventListener('submit', (event) => {
 		event.preventDefault();
 		const text = document.getElementById('inputBox').value;
-
-        let data = { action: "text", text };
+        const nick = document.getElementById('nick').value || "";
+        let data = { action: "text", text, nick };
 		RPC.WS( data, console.log, console.error );
 
 		document.getElementById('inputBox').value = ''
@@ -76,7 +81,7 @@
 
 </script>
 
-<pre id="chats"></pre>
+<pre id="chats" style="background: #0002; position: fixed; bottom: 0; left: 0; right: 0; top: 12em; overflow: auto; padding: 1em; margin: 0; font-size: 12px;"></pre>
 
 </body>
 
