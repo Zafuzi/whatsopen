@@ -38,6 +38,7 @@
 
     RPC.on_connect = function( evt ) {
         // RPC is ready to be used (websocket is connected)
+		document.getElementById( "chats" ).innerText = "";
         RPC( { action: "hello" }, msg => {
             console.log( "Connected to server: " + msg );
             let history = msg.history;
