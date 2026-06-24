@@ -88,6 +88,16 @@
 
 <script type="text/javascript">
 
+	const nickInput = document.getElementById( 'nick' );
+	const nickStorageKey = 'nick';
+	const savedNick = localStorage.getItem( nickStorageKey );
+	if ( savedNick ) {
+		nickInput.value = savedNick;
+	}
+	nickInput.addEventListener( 'input', () => {
+		localStorage.setItem( nickStorageKey, nickInput.value );
+	} );
+
 	const form = document.getElementById( 'msgForm' );
 	form.addEventListener( 'submit', ( event ) => {
 		event.preventDefault();
@@ -96,7 +106,7 @@
 		if ( text.length === 0 ) {
 			return;
 		}
-        const nick = document.getElementById( 'nick' ).value || "";
+        const nick = nickInput.value || "";
         let data = { action: "text", text, nick };
 		RPC.WS( data, console.log, console.error );
 
