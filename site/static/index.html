@@ -12,7 +12,7 @@
 
 <body>
 
-<header style="position: fixed; top: 0; left: 0; right: 0; padding: 1em; margin: 0; 2">
+<header>
 	It's like texting, but worse!
 </header>
 
@@ -22,15 +22,14 @@
 <template id="msgTemplate">
 	<pre class="msgCtn"></pre>
 </template>
-<div class="container">
-	<form id="msgForm" class="msgForm">
-        <input type="text" class="input nick" value="" id="nick" placeholder="Nickname" />
-		<textarea placeholder="Send message" class="input" id="inputBox" rows="3"></textarea>
-		<input type="submit" class="btn" value="Send">
-	</form>
-	<hr/>
-	<div id="messages" class="messages"></div>
-</div>
+
+<div id="messages" class="messages"></div>
+
+<form id="msgForm" class="msgForm">
+	<input type="text" class="input nick" value="" id="nick" placeholder="Nickname" />
+	<textarea placeholder="Send message" class="input" id="inputBox" rows="3"></textarea>
+	<input type="submit" class="btn" value="Send">
+</form>
 
 <script>
 

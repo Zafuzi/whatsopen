@@ -6,22 +6,14 @@ html{
 body{
 	margin:0;
 	padding: 0;
-	display:flex;
-	justify-content:center;
-}
-.container{
-	margin-top: 5rem;
-	display:flex;
-	flex-direction:column;
-	width: 30%;
 }
 .messages{
 	background: #0002;
 	position: fixed;
-	bottom: 0;
+	top: 5em;
+	bottom: 8em;
 	left: 0;
 	right: 0;
-	top: 12em;
 	overflow: auto;
 	padding: 1em;
 	margin: 0;
@@ -39,9 +31,17 @@ body{
 	font-family: inherit;
 }
 .msgForm{
-	display:flex;
-	flex-direction:row;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	flex-direction: row;
 	align-items: flex-start;
+	padding: 1em;
+	margin: 0;
+	background: #fff;
+	box-sizing: border-box;
 }
 .input{
 	flex: 4;
@@ -78,24 +78,16 @@ textarea.input{
 
 
 
-hr {
-	display: block;
-	height: 1px;
-	border: 0;
-	width: 100%;
-	background-color: #e1e1e1;
-	margin: 1rem 0;
-}
-
 header {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    width: 5em;
-    top: 0;
-    left: 0;
-    right: 0;
-    transform: rotate(-7deg);
-    height: 2em;
-    padding:1em;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	transform: rotate( -7deg );
+	height: 2em;
+	padding: 1em;
+	margin: 0;
 }
