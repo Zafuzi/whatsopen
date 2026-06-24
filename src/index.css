@@ -26,14 +26,16 @@ body{
 	padding: 1rem 1rem;
 	background-color: blueviolet;
 	border-radius: 6px;
-	font-size: 2rem
+	font-size: 2rem;
+	white-space: pre-wrap;
+	word-break: break-word;
+	font-family: inherit;
 }
 .msgForm{
 	display:flex;
 	flex-direction:row;
 }
 .input{
-	height: 100%;
 	flex: 4;
 	margin-right: 2rem;
 	border:none;
@@ -41,6 +43,9 @@ body{
 	padding: 2px 1rem;
 	font-size: 1.5rem;
 	background-color:aliceblue;
+	font-family: inherit;
+	resize: vertical;
+	min-height: 5rem;
 }
 .input:focus{
 	background-color:white;

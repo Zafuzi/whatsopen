@@ -24,10 +24,6 @@ wss.on('connection', (client) => {
 })
 
 function broadcast(msg) {       // (4)
-	if(msg.toString() === " ")
-	{
-		msg = "&nbsp;";
-	}
 	chatHistory.push(msg.toString());
 
 	for (const client of wss.clients) {
