@@ -36,11 +36,20 @@
     const msgTemplate = document.getElementById( 'msgTemplate' );
     const messagesEl = document.getElementById( 'messages' );
 
+    function isMessagesAtBottom() {
+        const threshold = 2;
+        return messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight <= threshold;
+    }
+
     function appendChatMessage( msg ) {
+        const atBottom = isMessagesAtBottom();
         const msgEl = msgTemplate.content.cloneNode( true );
         const pre = msgEl.querySelector( 'pre' );
         pre.textContent = ( msg.from ? msg.from + ': ' : '' ) + msg.text;
         messagesEl.appendChild( msgEl );
+        if ( atBottom ) {
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
     }
 
     // RPC is used to send msgs to the back end.
