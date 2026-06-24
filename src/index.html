@@ -53,21 +53,25 @@
 	const form = document.getElementById( 'msgForm' );
 	const inputBox = document.getElementById( 'inputBox' );
 
-	inputBox.addEventListener( 'keydown', ( event ) => {
-		if ( event.key === 'Enter' && !event.shiftKey ) {
-			event.preventDefault();
-			form.requestSubmit();
-		}
-	} );
-
-	form.addEventListener( 'submit', ( event ) => {
-		event.preventDefault();
+	function sendMessage() {
 		const message = inputBox.value;
 		if ( message.length === 0 ) {
 			return;
 		}
 		ws.send( message );
 		inputBox.value = '';
+	}
+
+	inputBox.addEventListener( 'keydown', ( event ) => {
+		if ( event.key === 'Enter' && !event.shiftKey && !event.isComposing ) {
+			event.preventDefault();
+			sendMessage();
+		}
+	} );
+
+	form.addEventListener( 'submit', ( event ) => {
+		event.preventDefault();
+		sendMessage();
 	} );
 </script>
 </body>
