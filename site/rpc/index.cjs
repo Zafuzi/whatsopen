@@ -45,7 +45,8 @@ module.exports = ( input, okay, fail, transport ) => {
         return okay( { history: chatHistory } );
     }
 
-   if( transport.type == "WS" ) {
+	console.log( "transport.type = " + transport.type );
+   if( true || transport.type == "WS" ) {
 
         if( input.nick ) {
             connection.nick = input.nick;
