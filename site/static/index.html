@@ -19,7 +19,30 @@
 
 <script src="/rpc/rpc.js"></script>
 
+<template id="msgTemplate">
+	<pre class="msgCtn"></pre>
+</template>
+<div class="container">
+	<form id="msgForm" class="msgForm">
+        <input type="text" class="input nick" value="" id="nick" placeholder="Nickname" />
+		<textarea placeholder="Send message" class="input" id="inputBox" rows="3"></textarea>
+		<input type="submit" class="btn" value="Send">
+	</form>
+	<hr/>
+	<div id="messages" class="messages"></div>
+</div>
+
 <script>
+
+    const msgTemplate = document.getElementById( 'msgTemplate' );
+    const messagesEl = document.getElementById( 'messages' );
+
+    function appendChatMessage( msg ) {
+        const msgEl = msgTemplate.content.cloneNode( true );
+        const pre = msgEl.querySelector( 'pre' );
+        pre.textContent = ( msg.from ? msg.from + ': ' : '' ) + msg.text;
+        messagesEl.appendChild( msgEl );
+    }
 
     // RPC is used to send msgs to the back end.
     // If you call RPC() directly, it will decide whether or not to use
@@ -31,19 +54,17 @@
         // Message originating from server (not a response to client message).
         // Returning true will prevent tlsd from doing anything further
         // with the message.
-        let msg = wrapper.msg;
-        document.getElementById( "chats" ).innerText += msg.from + ": " + msg.text + "\n";
+        appendChatMessage( wrapper.msg );
         return false;
     };
 
     RPC.on_connect = function( evt ) {
         // RPC is ready to be used (websocket is connected)
-		document.getElementById( "chats" ).innerText = "";
+        messagesEl.replaceChildren();
         RPC( { action: "hello" }, msg => {
             console.log( "Connected to server: " + msg );
-            let history = msg.history;
-            for( let msg of history ) {
-                document.getElementById( "chats" ).innerText += msg.from + ": " + msg.text + "\n";
+            for ( let historyMsg of msg.history ) {
+                appendChatMessage( historyMsg );
             }
         } );
     }
@@ -57,32 +78,24 @@
 
 </script>
 
-<div class="container">
-	<form id="msgForm" class="msgForm">
-        <input type="text" class="input" value="" id="nick" placeholder="Nickname" style="width:5em;" />
-		<input type="text" placeholder="Send message" class="input" id="inputBox" />
-		<input type="submit" class="btn" value="Send">
-	</form>
-	<hr/>
-	<div id="messages" class="messages"></div>
-</div>
-
 <script type="text/javascript">
 
-	const form = document.getElementById('msgForm');
-	form.addEventListener('submit', (event) => {
+	const form = document.getElementById( 'msgForm' );
+	form.addEventListener( 'submit', ( event ) => {
 		event.preventDefault();
-		const text = document.getElementById('inputBox').value;
-        const nick = document.getElementById('nick').value || "";
+		const inputBox = document.getElementById( 'inputBox' );
+		const text = inputBox.value;
+		if ( text.length === 0 ) {
+			return;
+		}
+        const nick = document.getElementById( 'nick' ).value || "";
         let data = { action: "text", text, nick };
 		RPC.WS( data, console.log, console.error );
 
-		document.getElementById('inputBox').value = ''
-	})
+		inputBox.value = '';
+	} );
 
 </script>
-
-<pre id="chats" style="background: #0002; position: fixed; bottom: 0; left: 0; right: 0; top: 12em; overflow: auto; padding: 1em; margin: 0; font-size: 12px;"></pre>
 
 </body>
 

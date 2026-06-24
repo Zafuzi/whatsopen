@@ -14,26 +14,36 @@ body{
 	display:flex;
 	flex-direction:column;
 	width: 30%;
-	height: 70vh;
 }
-.msg{
-	color:blueviolet;
-	font-size: 2rem;
+.messages{
+	background: #0002;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 12em;
+	overflow: auto;
+	padding: 1em;
+	margin: 0;
+	font-size: 12px;
 }
 .msgCtn{
-	margin: 1rem 0;
-	color: white;
-	padding: 1rem 1rem;
-	background-color: blueviolet;
-	border-radius: 6px;
-	font-size: 2rem
+	margin: 0 0 1rem 0;
+	color: inherit;
+	padding: 0;
+	background-color: transparent;
+	border-radius: 0;
+	font-size: 15px;
+	white-space: pre-wrap;
+	word-break: break-word;
+	font-family: inherit;
 }
 .msgForm{
 	display:flex;
 	flex-direction:row;
+	align-items: flex-start;
 }
 .input{
-	height: 100%;
 	flex: 4;
 	margin-right: 2rem;
 	border:none;
@@ -41,6 +51,14 @@ body{
 	padding: 2px 1rem;
 	font-size: 1.5rem;
 	background-color:aliceblue;
+	font-family: inherit;
+}
+.input.nick{
+	flex: 0 0 5em;
+}
+textarea.input{
+	resize: vertical;
+	min-height: 5rem;
 }
 .input:focus{
 	background-color:white;
@@ -67,10 +85,6 @@ hr {
 	width: 100%;
 	background-color: #e1e1e1;
 	margin: 1rem 0;
-}
-
-#chats {
-	font-size: 15px;
 }
 
 header {
