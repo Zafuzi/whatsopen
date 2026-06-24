@@ -33,6 +33,7 @@ function broadcast(msg) {       // (4)
 	}
 }
 
-server.listen(process.argv[2] || 8080, () => {
-	console.log(`server listening...`);
+const port = Number( process.argv[2] ) || 8080;
+server.listen( port, () => {
+	console.log( `server listening on port ${server.address().port}` );
 })
